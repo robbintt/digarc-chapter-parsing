@@ -96,6 +96,7 @@ def chapter_splitter(cases):
     for match in cases:
 
         matched = True
+
         while matched == True:
 
             # We want to split everything before the match and send it to a new file.
@@ -103,18 +104,25 @@ def chapter_splitter(cases):
             matched_split = re.split("("+match+")", contents, maxsplit=1, flags=re.IGNORECASE)
             if len(matched_split) == 3:
 
-                print matched_split[1]
                 contents = matched_split[2]
+                prev_chapter_string = matched_split[1]
+                filename_incrementer += 1
                 
                 partial_file_filename = str(filename_incrementer)+".txt"
                 with open(partial_file_filename, 'w') as f:
                     f.write(prev_chapter_string+matched_split[0])
 
-                prev_chapter_string = matched_split[1]
-                filename_incrementer += 1
 
             else:
+
+                partial_file_filename = str(filename_incrementer)+".txt"
+                with open(partial_file_filename, 'w') as f:
+                    f.write(prev_chapter_string+matched_split[0])
+
                 matched = False
+
+        
+
             
 
 
