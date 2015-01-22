@@ -106,7 +106,7 @@ def chapter_splitter(cases):
                 print matched_split[1]
                 contents = matched_split[2]
                 
-                partial_file_filename = filename+str(filename_incrementer)
+                partial_file_filename = str(filename_incrementer)+".txt"
                 with open(partial_file_filename, 'w') as f:
                     f.write(prev_chapter_string+matched_split[0])
 
