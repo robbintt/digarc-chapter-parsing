@@ -70,8 +70,14 @@ def chapter_format_identifier():
     pattern = 'chapter.....'
     matches = re.findall(pattern, contents)
 
-    print matches
+    # test for written numbers
+    written_counter = 0
+    written_matches = []
+    for poss_match in written_cases:
+        if re.search(poss_match, contents, flags=re.IGNORECASE) is not None:
+            written_counter += 1
 
+    print written_counter
 
 def chapter_splitter():
     """
