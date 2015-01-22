@@ -77,21 +77,54 @@ def chapter_format_identifier():
         if re.search(poss_match, contents, flags=re.IGNORECASE) is not None:
             written_counter += 1
 
-    print written_counter
+    return written_cases
 
-def chapter_splitter():
+def chapter_splitter(cases):
+    """ This function accepts a list and iteratively attempts to parse on each item
+    until none more are returned.
+
+    Note for future:
+    It is possible to prevent false matches by using an incrementing sequence
+    when parsing on each chapter format instance.
     """
-    """
-    pass
 
+    with open(filename, 'r') as f:
+        contents = f.read()
 
+    filename_incrementer = 0
+    prev_chapter_string = ""
+    for match in cases:
+
+        matched = True
+        while matched == True:
+
+            # We want to split everything before the match and send it to a new file.
+            # (And everything after the previous match)
+            matched_split = re.split("("+match+")", contents, maxsplit=1, flags=re.IGNORECASE)
+            if len(matched_split) == 3:
+
+                print matched_split[1]
+                contents = matched_split[2]
+                
+                partial_file_filename = filename+str(filename_incrementer)
+                with open(partial_file_filename, 'w') as f:
+                    f.write(prev_chapter_string+matched_split[0])
+
+                prev_chapter_string = matched_split[1]
+                filename_incrementer += 1
+
+            else:
+                matched = False
+            
 
 
 if __name__ == '__main__':
 
-    chapter_format_identifier()
+    cases = chapter_format_identifier()
 
+    print cases
 
+    chapter_splitter(cases)
 
 
 
